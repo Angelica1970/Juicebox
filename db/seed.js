@@ -4,18 +4,21 @@
 const { client } = require('./index');
 
 async function testDB() {
-    try {
-      client.connect();
-  
-      const result = await client.query(`SELECT * FROM users;`);
-      const {rows} = await client.query(`SELECT * FROM users;`);
-      console.log(rows);
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      client.end();
-    }
+  try {
+    // connect the client to the database, finally
+    client.connect();
+
+    // queries are promises, so we can await them
+    const result = await client.query(`SELECT * FROM users;`);
+
+    // for now, logging is a fine way to see what's up
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    // it's important to close out the client connection
+    client.end();
   }
+}
 
 testDB();
